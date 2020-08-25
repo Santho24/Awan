@@ -1,0 +1,6 @@
+1. I verified the IIS server and its configuration for the hosted application
+2. In the hosted application, the application pools are pointing to default one, While I'm trying to start the default pools it was started but after hitting the application url, Then the default pools goes to down state
+3. So based on the methodology I found the root cause, the hosted applicaiton was belongs to asp_net client 
+4. I reconfigured the application pool from default to .Net v4.5 
+5. Then the application going to good state and up/running.
+		"http://localhost/"

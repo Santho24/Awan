@@ -1,0 +1,50 @@
+1. Verified Status and journalctl -xe of the application
+2. Here I noticed some conflict in the configration related to log file 
+3. And then I verified the redis.conf file was located at "/etc/redis/redis.conf" here I noticed the log file was pointing to wrong directory
+	The right file path is "/var/log/redis/redis-server.log"
+	
+		root@satkv-lnx:/var/log/redis# pwd
+		/var/log/redis
+		root@satkv-lnx:/var/log/redis# ll
+		total 16
+		drwxr-x---  2 redis redis 4096 Aug 23 06:25 ./
+		drwxrwxr-x 10 root  root  4096 Aug 25 10:31 ../
+		-rw-rw----  1 redis redis 2628 Aug 25 12:03 redis-server.log
+		-rw-rw----  1 redis redis 1102 May 20 09:14 redis-server.log.1.gz
+	
+	But in the configration file, it was pointing to "/var/log/redis-server.log"
+	
+	So I changed it to the right path
+
+4. And then I changed the directory permission from root to redis.
+
+	 chown -R redis:redis /var/log/redis
+	 
+5. Then executed the below commands for restarting the redis service.
+
+	systemctl daemon-reload
+	systemctl restart redis-server.service
+
+Result :
+
+root@satkv-lnx:/var/log/redis# systemctl status redis-server.service
+● redis-server.service - Advanced key-value store
+   Loaded: loaded (/lib/systemd/system/redis-server.service; enabled; vendor preset: enabled)
+   Active: active (running) since Tue 2020-08-25 12:03:11 UTC; 6s ago
+     Docs: http://redis.io/documentation,
+           man:redis-server(1)
+  Process: 37448 ExecStartPost=/bin/run-parts --verbose /etc/redis/redis-server.post-up.d (code=exited, status=0/SUCCESS)
+  Process: 37444 ExecStart=/usr/bin/redis-server /etc/redis/redis.conf (code=exited, status=0/SUCCESS)
+  Process: 37431 ExecStartPre=/bin/run-parts --verbose /etc/redis/redis-server.pre-up.d (code=exited, status=0/SUCCESS)
+ Main PID: 37447 (redis-server)
+    Tasks: 3
+   Memory: 6.9M
+      CPU: 37ms
+   CGroup: /system.slice/redis-server.service
+           └─37447 /usr/bin/redis-server 127.0.0.1:6379
+
+Aug 25 12:03:11 satkv-lnx systemd[1]: Stopped Advanced key-value store.
+Aug 25 12:03:11 satkv-lnx systemd[1]: Starting Advanced key-value store...
+Aug 25 12:03:11 satkv-lnx run-parts[37431]: run-parts: executing /etc/redis/redis-server.pre-up.d/00_example
+Aug 25 12:03:11 satkv-lnx run-parts[37448]: run-parts: executing /etc/redis/redis-server.post-up.d/00_example
+Aug 25 12:03:11 satkv-lnx systemd[1]: Started Advanced key-value store.

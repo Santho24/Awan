@@ -7,18 +7,22 @@
 				
 
 Output:
-				
-root@1a12d583b1e2:/# curl http://localhost:9200
+
+[root@76f9f034c881 elasticsearch]# curl http://localhost:9200
 {
-  "name" : "node-1",
-  "cluster_name" : "elasticsearch",
-  "cluster_uuid" : "QSNkheRQSJ-Vfe6NEirGFQ",
+  "name" : "ld7Eyes",
+  "cluster_name" : "docker-cluster",
+  "cluster_uuid" : "wIuswhfLSuqvb1-8l1Vj_A",
   "version" : {
-    "number" : "2.4.6",
-    "build_hash" : "5376dca9f70f3abef96a77f4bb22720ace8240fd",
-    "build_timestamp" : "2017-07-18T12:17:44Z",
+    "number" : "6.4.2",
+    "build_flavor" : "default",
+    "build_type" : "tar",
+    "build_hash" : "04711c2",
+    "build_date" : "2018-09-26T13:34:09.098244Z",
     "build_snapshot" : false,
-    "lucene_version" : "5.5.4"
+    "lucene_version" : "7.4.0",
+    "minimum_wire_compatibility_version" : "5.6.0",
+    "minimum_index_compatibility_version" : "5.0.0"
   },
   "tagline" : "You Know, for Search"
 }
